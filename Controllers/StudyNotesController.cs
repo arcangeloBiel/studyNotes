@@ -1,15 +1,26 @@
 ﻿using DevStudyNotes.API.Entities;
 using DevStudyNotes.API.Models;
+using DevStudyNotes.API.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace DevStudyNotes.API.Controllers {
     [ApiController]
     [Route("api/study-notes")]
     public class StudyNotesController: ControllerBase {
+
+        private readonly StudyNoteDbContext _context;
+        public StudyNotesController(StudyNoteDbContext context) {
+            _context = context;
+        }
         
+        // api/sudy-notes http get
         [HttpGet]
         public IActionResult GetAll() {
-            return Ok();
+            var studyNotes = _context.StudyNotes.ToList();
+            Log.Information("GetAll is called");
+            throw new Exception("GetAll is a error");
+            return Ok(studyNotes);
         }
 
         [HttpGet("{id}")]
